@@ -1,59 +1,59 @@
-# Exercise 4D: Basic Overview of Azure OpenAI Service Hyperparameters (Read-Only)
-## Quick Note on adjusting Hyperparameters
+# Ejercicio 4D: Descripción Básica de los Hiperparámetros de Azure OpenAI Service (Solo Lectura)
+## Nota Rápida sobre el ajuste de Hiperparámetros
 
-When working with prompts, you will be interacting with the LLM via an API or directly. You can configure a few parameters to get different results for your prompts.
+Cuando trabaje con prompts, interactuará con el LLM directamente o a través de una API. Puede configurar algunos parámetros para obtener resultados diferentes para sus prompts.
 
-**Temperature** - In short, the lower the temperature, the more deterministic the results are, in the sense that the most probable next token is always picked. Increasing temperatures could lead to more randomness, encouraging more diverse or creative outputs. We are essentially increasing the weights of the other possible tokens. In terms of application, we might want to use a lower temperature for something like fact-based QA to encourage more factual and concise responses. For poem generation or other creative tasks, it might be beneficial to increase the temperature.
+**temperature** - En pocas palabras, cuanto más baja es la temperatura, más deterministas son los resultados, en el sentido de que siempre se elige el siguiente token más probable. Incrementar la temperatura podría generar más aleatoriedad, fomentando resultados más diversos o creativos. Básicamente, estamos aumentando los pesos de los otros tokens posibles. En términos de aplicación, es posible que deseemos utilizar una temperatura más baja para algo como el control de calidad basado en hechos para fomentar respuestas más objetivas y concisas. Para la generación de poemas u otras tareas creativas, puede resultar beneficioso aumentar la temperatura.
 
-**Top_p** - Similarly, with top_p, a sampling technique with temperature called nucleus sampling, you can control how deterministic the model is at generating a response. If you are looking for exact and factual answers, keep this low. If you are looking for more diverse responses, increase to a higher value.
+**top_p** - De manera similar, con top_p, una técnica de muestreo con temperatura llamada muestreo de núcleo, puede controlar qué tan determinista es el modelo al generar una respuesta. Si está buscando respuestas exactas y objetivas, manténgalo en un valor bajo. Si busca respuestas más diversas, auméntelo a un valor más alto.
 
-The general recommendation is to alter one, not both.
+La recomendación general es modificar uno, no ambos parámetros a la vez.
 
-### text-davinci-003 model
+### Modelo text-davinci-003
 
 **temperature**
 ```
-Controls randomness: Lowering results in fewer random completions. 
-As the temperature approaches zero, the model will become deterministic and repetitive.
+Controla la aleatoriedad: Reducirla da como resultado finalizaciones menos aleatorias.
+A medida que la temperatura se acerque a cero, el modelo se volverá determinista y repetitivo.
 ```
 
 **max_tokens**
 ```
-Set a limit on the number of tokens to generate in a response. 
-The system supports a maximum of 2048 tokens shared between a given prompt and response completion. 
-(One token is roughly 4 characters for typical English text.)
+Establece un límite en la cantidad de tokens que se generarán en una respuesta.
+El sistema admite un máximo de 2048 tokens compartidos entre un prompt determinado y la respuesta de finalización.
+(Un token equivale aproximadamente a 4 caracteres para un texto típico en idioma Inglés).
 ```
 
-**top_p***
+**top_p**
 ```
-Control which tokens the model will consider when generating a response via nucleus sampling. 
-Setting this to 0.9 will consider the top 90% most likely of all possible tokens. 
-This will avoid using tokens that are incorrect while still maintaining variety
-when the model has low confidence in the highest-scoring tokens.
+Controla qué tokens considerará el modelo al generar una respuesta mediante muestreo de núcleos.
+Establecerlo en 0.9 considerará el 90% más probable de todos los tokens posibles.
+Esto evitará el uso de tokens que sean incorrectos y al mismo tiempo mantendrá la variedad 
+cuando el modelo tiene poca confianza en los tokens con mayor puntuación.
 ```
 
 **frequency_penalty**
 ```
-Reduce the chance of repeating a token proportionally based on how often it has appeared in the text so far.
-This decreases the likelihood of repeating the same text in a response.
+Reduce la posibilidad de repetir un token proporcionalmente según la frecuencia con la que ha aparecido en el texto hasta el momento.
+Esto disminuye la probabilidad de repetir el mismo texto en una respuesta.
 ```
 
 **presence_penalty**
 ```
-Reduce the chance of repeating any token that has appeared in the text at all so far. 
-This increases the likelihood of introducing new topics in a response.
+Reduce la posibilidad de repetir cualquier token que haya aparecido en el texto hasta ahora.
+Esto aumenta la probabilidad de introducir nuevos temas en una respuesta.
 ```
 
 **best_of**
 ```
-Generate multiple responses, and display only the one with the best total probability across all its tokens. 
-The unused candidates will still incur usage costs, so use this parameter carefully and make sure to set the
-parameters for max response length and ending triggers as well. Note that streaming will only work when this is set to 1.
+Genera múltiples respuestas y muestra solo la que tenga la mejor probabilidad total entre todos sus tokens.
+Los candidatos no utilizados seguirán incurriendo en costos de uso, así que use este parámetro con cuidado y asegúrese también de configurar los
+parámetros de la longitud máxima de la respuesta y los triggers de finalización. Tenga en cuenta que la función de streaming solo funcionará cuando esté configurado en 1.
 ```
 
 **stop**
 ```
-Make responses stop at a desired point, such as the end of a sentence or list.
-Specify up to four sequences where the model will stop generating further tokens
-in a response. The returned text will not contain the stop sequence.
+Hace que las respuestas se detengan en un punto deseado, como el final de una oración o lista.
+Especifique hasta cuatro secuencias en las que el modelo dejará de generar más tokens
+en una respuesta. El texto devuelto no contendrá la secuencia de detención.
 ```
